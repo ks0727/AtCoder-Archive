@@ -1,0 +1,11 @@
+{
+    "python.pythonPath": "/Users/sakaikosuke/opt/anaconda3/bin/python",
+    "files.associations": {
+        "deque": "cpp",
+        "functional": "cpp",
+        "set": "cpp",
+        "string": "cpp",
+        "unordered_map": "cpp",
+        "vector": "cpp"
+    }
+}
