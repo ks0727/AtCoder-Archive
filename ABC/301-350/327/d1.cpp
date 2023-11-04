@@ -18,7 +18,6 @@ int main(){
         g[b[i]-1].push_back(a[i]-1);
     }
     vector<int> seen(n,-1);
-    seen[0] = 0;
     bool ok = true;
     auto dfs = [&](auto dfs, int v, int prev)->void{
         if(prev){
@@ -38,7 +37,7 @@ int main(){
             dfs(dfs,u,prev);
         }
     };
-    dfs(dfs,0,0);
+    dfs(dfs,0,1);
     if(ok) cout << "Yes" << endl;
     else cout << "No" << endl;
     return 0;
