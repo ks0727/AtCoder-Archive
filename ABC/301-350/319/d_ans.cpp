@@ -8,7 +8,6 @@ int main(){
     cin >> n >> m;
     vector<ll> l(n);
     rep(i,n) cin >> l[i];
-    
     ll left = 0, right = 1e15;
     while(right-left >1 ){
         ll key = (left+right)/2;
