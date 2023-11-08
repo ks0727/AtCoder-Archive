@@ -17,8 +17,6 @@ int main(){
     rep(i,n){
         for(auto next : g[i]){
             if(next == i) continue;
-            ver++;
         }
-        if(ver)
     }
 }
