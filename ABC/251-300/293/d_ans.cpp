@@ -17,7 +17,7 @@ int main(){
         if(uf.same(a,c)) x++;
         else uf.merge(a,c);
     }
-    int y = n-m;
+    int y = n- m;
     cout <<x << ' ' << y << endl;
     return 0;
 }
