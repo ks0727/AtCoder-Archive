@@ -12,6 +12,7 @@ int main(){
             a[i][j] = c[i][j] - 'a'; //ここでアルファベットを数値に変換
         }
     }
+    int m = 26;
     rep(i,h) cin >> c[i];
     vector row(h, vector<int>(m)); //mはアルファベットのそれぞれの種類で最大26 つまりそれぞれの行にそのアルファベットが何文字入っているかを記録している
     vector col(w, vector<int>(m));
@@ -22,16 +23,16 @@ int main(){
         }
     }
 
-    vector<bool> row_deleted(h);　//消されているかのbool変数
+    vector<bool> row_deleted(h); //消されているかのbool変数
     vector<bool> col_deleted(w);
 
-    auto toDelete() = [&](vector<int> x){ //xの中身は[0,3,2,4,1,...4]のように各アルファベットの個数の情報が入る
+    auto toDelete = [&](vector<int> x){ //xの中身は[0,3,2,4,1,...4]のように各アルファベットの個数の情報が入る
         int tot=0, k=0;
             rep(j,m){
                 tot += x[j];
                 if(x[j]) k++; //c++において0が偽で0以外は真だから0出なければ種類のカウントをあげるということができる
             }
-            return tot >= 2 && k==1;　//そこの列/行に『合計2個以上のクッキーがありかつその種類が１種類であるかどうか』　を返す
+            return tot >= 2 && k==1; //そこの列/行に『合計2個以上のクッキーがありかつその種類が１種類であるかどうか』　を返す
     };
 
     auto del = [&](int i,int j){
