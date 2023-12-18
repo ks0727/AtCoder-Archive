@@ -2,11 +2,6 @@
 using namespace std;
 #define rep(i,n) for(int i=0;i<(n);i++)
 
-int fact(int x){
-    if(x == 0) return 1;
-    else return x*fact(x-1);
-}
-
 struct grid{
     int h,w;
     vector<vector<int> > g;
@@ -64,18 +59,22 @@ int main(){
                 }
             }
             if(c.g == b.g){
-                int ans = 0;
-                ans = nr + nc;
+                int nc = 0; int nr = 0;
+                rep(i,h){
+                    rep(j,h){
+                        if(i < j && rp[i] > rp[j]) nr++;
+                    }
+                }
+                rep(i,w){
+                    rep(j,w){
+                        if(i < j && cp[i] > cp[j]) nc++;
+                    }
+                }
+                int ans = nr+nc;
                 cout << ans << endl;
                 return 0;
             }
-            cnt++;
-            if(cnt >= fact(w)){
-                nc++;
-                cnt = 0;
-            }
         }while(next_permutation(cp.begin(),cp.end()));
-        nr++;
     }while(next_permutation(rp.begin(),rp.end()));
     cout << -1 << endl;
     return 0;
