@@ -4,8 +4,8 @@ using namespace std;
 using P = pair<int,int>;
 
 int main(){
-    int h,w,rs,cs;
-    cin >> h >> w >> rs >> cs;
+    int h,w,si,sj;
+    cin >> h >> w >> si >> sj;
     int n;
     cin >> n;
     map<int,vector<int> > col,row;
@@ -15,47 +15,61 @@ int main(){
         col[c].push_back(r);
         row[r].push_back(c);
     }
-    for(auto[num,arr] : col) sort(arr.begin(),arr.end());
-    for(auto[num,arr] : row) sort(arr.begin(),arr.end());
+    for(auto &mp : col) sort(mp.second.begin(),mp.second.end());
+    for(auto &mp : row) sort(mp.second.begin(),mp.second.end());
     int q;
     cin >> q;
-    P pos = P(rs,cs);
+    P pos = P(si,sj);
     auto f = [&](P pos, char d, int l){
-        auto [x,y] = pos;
+        auto [i,j] = pos;
         if(d == 'U'){
-            if(row.count(y)){
-                int idx = lower_bound(row[y].begin(),row[y].end(),y) - row[y].begin();
-                int ny = row[y][idx-1] + 1; 
-                return P(x,ny);
+            if(col.count(j)){
+                int wall = *lower_bound(col[j].begin(),col[j].end(),i);
+                if(i < wall){
+                    return P(max(1,i-l),j);
+                }else{
+                    int ni = max(i-l,wall+1);
+                    return P(max(ni,1),j);
+                }
             }else{
-                return P(x,y-l);
+                return P(max(1,i-l),j);
             }
         }
         else if(d == 'D'){
-            if(row.count(y)){
-                int idx = lower_bound(row[y].begin(),row[y].end(),y) - row[y].begin();
-                int ny = row[y][idx-1] - 1; 
-                return P(x,ny);
+            if(col.count(j)){
+                int wall = *lower_bound(col[j].begin(),col[j].end(),i);
+                if(i > wall){
+                    return P(min(h,i+l),j);
+                }else{
+                    int ni = max(i+l,wall-1);
+                    return P(min(ni,h),j);
+                }
             }else{
-                return P(x,l+y);
+                return P(min(h,i+l),j);
             }
         }
         else if(d == 'L'){
-            if(col.count(x)){
-                int idx = lower_bound(col[x].begin(),col[x].end(),x) - col[x].begin();
-                int nx = col[x][idx-1] + 1;
-                return P(nx,y);
+            if(row.count(i)){
+                int wall = *lower_bound(row[i].begin(),row[i].end(),j);
+                if(wall > j) return P(i,max(1,j-l));
+                else{
+                    int nj = max(j-l,wall+1);
+                    return P(i,max(1,nj));
+                }
             }else{
-                return P(x-l,y);
+                return P(i,max(1,j-l));
             }
         }
         else{
-            if(col.count(x)){
-                int idx = lower_bound(col[x].begin(),col[x].end(),x) - col[x].begin();
-                int nx = col[x][idx-1] - 1;
-                return P(nx,y);
+            if(row.count(i)){
+                int wall = *lower_bound(row[i].begin(),row[i].end(),j);
+                if(wall < j) return P(i,min(j+l,w));
+                else{
+                    int nj = min(j+l,wall-1);
+                    return P(i,min(nj,w));
+                }
             }else{
-                return P(x+l,y);
+                return P(i,min(j+l,w));
             }
         }
     };
@@ -63,7 +77,7 @@ int main(){
         char d; int l;
         cin >> d >> l;
         pos = f(pos,d,l);
-        cout << pos.second << ' ' << pos.first << endl;
+        cout << pos.first << ' ' << pos.second << endl;
     }
     return 0;
 }
