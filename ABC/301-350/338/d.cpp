@@ -7,6 +7,5 @@ int main(){
     cin >> n >> m;
     vector<int> x(m);
     rep(i,m) cin >> x[i];
-    
     return 0;
 }
