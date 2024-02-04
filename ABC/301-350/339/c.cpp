@@ -24,6 +24,5 @@ int main(){
     ll ans = r;
     rep(i,n) ans += a[i];
     cout << ans << endl;
-    cout << (-1+3) % 3 << endl;
     return 0;
 }
