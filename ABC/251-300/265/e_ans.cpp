@@ -18,7 +18,6 @@ int main(){
         cin >> x >> y;
         st.emplace(x,y);
     }
-
     map<P,mint> dp;
     dp[P(0,0)] = 1;
     rep(i,n){
