@@ -12,7 +12,7 @@ int main(){
         { // i = 0
             int now = 0;
             for(int x : a){
-                if(x <= j) now = max(now,dp[1][j-x]+x);
+                if(x <= j) now = max(now,dp[1][j-x]+x); //nowは0よりも大きく、プレイヤー1がxを取った時
             }
             dp[0][j] = now;
         }
