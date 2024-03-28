@@ -13,7 +13,7 @@ int main(){
     rep(i,n) cin >> s[i];
     P2 ps; int pi = 0;
     rep(i,n)rep(j,n) {
-        if(s[i][j] == 'P'){
+        if(s[i][j] == 'P'){     
             ps[pi++] = P(i,j);
         }
     }
