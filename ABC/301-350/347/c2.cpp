@@ -21,5 +21,4 @@ int main(){
     if(diff <= a) cout << "Yes" << endl;
     else cout << "No" << endl;
     return 0;
-    
 }
