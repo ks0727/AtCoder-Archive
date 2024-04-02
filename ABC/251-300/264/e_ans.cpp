@@ -19,7 +19,6 @@ int main(){
     cin >> q;
     vector<int> qs(q);
     vector<bool> cut(e);
-
     rep(qi,q){
         int x;
         cin >> x;
