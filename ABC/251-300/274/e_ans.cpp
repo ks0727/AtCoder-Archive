@@ -48,7 +48,7 @@ ostream& operator>>(ostream& os, V & v){//出力 coutが使えるようになる
     os << "("<< v.x << ","  << v.y << ")";
     return os;
 }
-void chmin(double &a, double &b){a = min(a,b);}
+void chmin(double &a, double b){a = min(a,b);}
 int main(){
     int n,m;
     cin >> n >> m;
