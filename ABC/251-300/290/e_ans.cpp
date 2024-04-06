@@ -6,7 +6,6 @@ using ll = long long;
 ll c2(ll n){
     return n*(n-1)/2;
 }
-
 int main(){
     int n;
     cin >> n;
@@ -19,6 +18,7 @@ int main(){
     rep(i,n) same += c2(cnt[i]);
     ll ans = 0;
     auto del = [&](int x){
+
         same -= c2(cnt[x]);
         cnt[x]--;
         same += c2(cnt[x]);
