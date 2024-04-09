@@ -36,6 +36,7 @@ int main(){
         es[u] += g[i].size();
     }
     rep(i,unions){
+        cout << ns[i] << ' ' << es[i] << endl;
         if(ns[i] != es[i]/2){
             cout << "No" << endl;
             return 0;
