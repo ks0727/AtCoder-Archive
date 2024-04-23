@@ -4,14 +4,15 @@ using namespace std;
 using ll = long long;
 
 int main(){
-    ll n; int a,x,y;
+    ll n,a,x,y;
     cin >> n >> a >> x >> y;
     map<ll,double> memo;
     auto f = [&](auto f, ll z)->double{
-        if(z == 0) return memo[0] = 0;
+        if(z == 0) return 0;
         if(memo.count(z)) return memo[z];
         double fir = x + f(f,z/a);
-        double sec = ((double)y*6./5+1./5*f(f,z/6)+1./5*f(f,z/5)+1./5*f(f,z/4)+1./5*f(f,z/3)+1./5*f(f,z/2));
+        double sec = y*6+f(f,z/6)+f(f,z/5)+f(f,z/4)+f(f,z/3)+f(f,z/2);
+        sec /= 5.;
         double res = min(fir,sec);
         return memo[z] = res;
     };
