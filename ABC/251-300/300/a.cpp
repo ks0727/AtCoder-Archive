@@ -10,7 +10,7 @@ int main(){
     rep(i,n){
         if(c[i] == a+b){
             cout << i + 1 << endl;
-            return 0;
+            return 0;　
         }
     }
     return 0;
