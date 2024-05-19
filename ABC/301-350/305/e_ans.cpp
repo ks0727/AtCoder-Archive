@@ -29,7 +29,7 @@ int main(){
         for(int u : g[v]){
             if(d[u] >= h-1) continue;
             d[u] = h-1;
-            q.emplace(h,u);
+            q.emplace(h-1,u);
         }
     }
     vector<int> ans;
