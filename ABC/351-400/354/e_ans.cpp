@@ -13,9 +13,9 @@ int main(){
         bool now = false;
         rep(i,n)rep(j,n){
             if(i == j) continue;
-            if((s>>i)&1 && (s>>j)&1){
+            if((s>>i)&1 && (s>>j)&1){ //Sがi番目とj番目のカードを持っていたら
                 if(a[i] != a[j] && b[i] != b[j]) continue;
-                if(!dp[s^(1<<i)^(1<<j)]) now = true;
+                if(!dp[s^(1<<i)^(1<<j)]) now = true; //Sからi番目とj番目のカードを使ったとき, 相手が負けるなら自分は勝てる
             }
         }
         dp[s] = now;
