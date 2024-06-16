@@ -23,13 +23,13 @@ int main(){
             cout << -1 << endl;
             return 0;
         }
-        int s = *a.lower_bound(b[i]);
-        if(s == INF){
+        auto s = a.lower_bound(b[i]);
+        if(*s == INF){
             cout << -1 << endl;
             return 0;
         }
         a.erase(s);
-        ans += s;
+        ans += *s;
     }
     cout << ans << endl;
     return 0;

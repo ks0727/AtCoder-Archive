@@ -14,9 +14,7 @@ int main(){
     ll ans = 0;
     int now = 0;
     rep(i,m){
-        while(now < n && b[i] > a[now]){
-            now++;
-        }
+        while(now < n && b[i] > a[now]) now++;
         if(now == n){
             cout << -1 << endl;
             return 0;
