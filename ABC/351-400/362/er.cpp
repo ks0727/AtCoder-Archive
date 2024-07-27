@@ -9,29 +9,30 @@ using mint = modint998244353;
 mint dp[81][81][81];
 
 int main(){
-  int n;
-  cin >> n;
-  vector<int> a(n);
-  rep(i,n) cin >> a[i];
-  rep(i,n)rep(j,n)rep(k,n) dp[i][j][k] = 0;
-  rep(i,n){
-    for(int j=i+1;j<n;++j){
-      for(int k=j+1;k<n;k++){
-        for(int l=1;l<n;l++){
-          dp[i][j][l] += dp[j][k][l-1];
+    int n;
+    cin >> n;
+    vector<int> a(n);
+    rep(i,n) cin >> a[i];
+    vector<mint> ans;
+    ans.push_back(n);
+    for(int l=2;l<=n;l++){
+      mint now = 0;
+      rep(i,n){
+        for(int j=i+1;j<n;++j){
+          if(l == 2){
+            dp[i][j][l] = 1;
+          }
+          for(int k=j+1;k<n;k++){
+            if(dp[i][j][l] == 0) continue;
+            if(a[j]-a[i] == a[k] - a[j]){
+              dp[j][k][l+1] += dp[i][j][l];
+            }
+          }
+          now += dp[i][j][l];
         }
       }
+      ans.push_back(now);
     }
-  }
-  vector<mint> ans(n);
-  ans[0] = mint(n);
-  rep(i,n){
-    for(int j=i+1;j<n;j++){
-      for(int l=1;l<=n;l++){
-        ans[l] += dp[i][j][l];
-      }
-    }
-  }
-  rep(i,n) cout << ans[i].val() << ' '; cout << endl;
-  return 0;
+    rep(i,n) cout << ans[i].val() << ' '; cout << endl;
+    return 0;
 }
