@@ -9,18 +9,22 @@ using mint = modint998244353;
 int main(){
     int n; ll k;
     cin >> n >> k;
-    vector<ll> a(n),s(n+1);
+    vector<int> a(n);
     rep(i,n) cin >> a[i];
+    vector<ll> s(n+1);
     rep(i,n) s[i+1] = s[i] + a[i];
-    map<ll,mint> mp;    
     vector<mint> dp(n+1);
-    mint sum = 0;
     dp[0] = 1;
-    mp[0] = 1;
-    rep(i,n){
-        sum += dp[i];
-        mp[s[i]] += dp[i];
-        dp[i+1] = sum - mp[s[i] - k];
+    mint tot = 1;
+    map<ll,mint> dpsum;
+    dpsum[0] = 1;
+    for(int i=1;i<=n;i++){
+        //rep(j,i) dp[i] += dp[j];
+        //rep(j,i) if(s[j] == s[i] - k) dp[i] -= dp[j];
+        dp[i] += tot;
+        dp[i] -= dpsum[s[i]-k];
+        tot += dp[i];
+        dpsum[s[i]] += dp[i];
     }
     cout << dp[n].val() << endl;
     return 0;
