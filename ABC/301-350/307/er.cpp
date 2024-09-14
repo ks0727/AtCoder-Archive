@@ -1,21 +1,28 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <atcoder/modint>
 using namespace std;
-#include <atcoder/all>
 using namespace atcoder;
-#define rep(i,n) for(int i=0;i<(n);i++)
 using mint = modint998244353;
 
 int main(){
-    int n,m;
-    cin >> n >> m;
-    vector dp(n+5,vector<mint>(2)); 
-    dp[0][0] = m;
-    dp[0][1] = 0;
-    rep(i,n){
-        dp[i+1][0] = dp[i][1];
-        dp[i+1][1] = dp[i][0]*(m-1)+dp[i][1]*(m-2);
-    }
-    cout << dp[n-1][1].val() << endl;
-    return 0;
-
+  int n,m;
+  cin >> n >> m;
+  auto f = [&](int x){
+    mint res = 0;
+    res += m*mint(m-1).pow(n-1) - (m-1)*mint(m-2).pow(n-2);
+    return res;
+  };
+  if(n == 2){
+    mint ans = (mint)m*(m-1);
+    cout << ans.val() << endl;
+  }else if(n==3){
+    mint ans = mint(m)*(m-1)*(m-2);
+    cout << ans.val() << endl;
+  }else{
+    mint ans = f(n);
+    cout << ans.val() << endl;
+  }
+  return 0;
 }
+
+
