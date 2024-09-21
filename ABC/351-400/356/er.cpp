@@ -1,37 +1,28 @@
-#include <bits/stdc++.h>
+#include <iostream>
 using namespace std;
-#define rep(i,n) for(int i=0;i<(n);i++)
 using ll = long long;
+int a[2<<17];
+int cnt[1<<20];
+ll s[1<<20];
 
 int main(){
-    const int M = 1e6;
-    int n;
-    cin >> n;
-    vector<int> c(M+1);
-    rep(i,n){
-        int a;
-        cin >> a;
-        c[a]++;
+  int n;
+  cin >> n;
+  for(int i=0;i<n;i++) cin >> a[i];
+  for(int i=0;i<n;i++) cnt[a[i]]++;
+  const int M = 1e6;
+  ll ans = 0;
+  for(ll i=0;i<M+5;i++) s[i+1] = s[i] + cnt[i];
+  for(ll i=1;i<M+5;i++){
+    int j=i;
+    while(j >0){
+      int x = i/j;
+      int nx = x+1;
+      int nj = i/nx;
+      j = nj;
     }
-    vector<int> s(M+1);
-    rep(i,M) s[i+1] = s[i]+c[i];
-    auto sum = [&](int l,int r){
-        r = min(M,r);
-        return s[r]-s[l];
-    };
-
-    ll ans = 0;
-    for(int y=1;y<=M;y++){
-        ll now = 0;
-        for(int x = 1;x*y<=M;x++){
-            ll l = y*x;
-            ll r = y*(x+1);
-            now += sum(l,r)*x;
-        }
-        now -= c[y];
-        ans += now*c[y];
-        ans += (ll)c[y]*(c[y]-1)/2;
-    }
-    cout << ans << endl;
-    return 0;
+  }
+  cout << ans << endl;
 }
+
+

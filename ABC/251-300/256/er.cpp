@@ -1,35 +1,39 @@
 #include <iostream>
-#include <vector>
-#include <algorithm>
-#include <atcoder/dsu>
+#include <queue>
 using namespace std;
-using namespace atcoder;
-using ll = long long;
 int x[2<<17];
-ll c[2<<17];
-bool seen[2<<17];
-int main(){
+int dim[2<<17];
+long long c[2<<17];
+bool finished[2<<17];
+int main()
+{
   int n;
-  cin >> n;
-  for(int i=0;i<n;++i) cin >> x[i],x[i]--;
-  for(int i=0;i<n;++i) cin >> c[i];
-  vector<int> dim(n);
-  for(int i=0;i<n;++i) dim[x[i]]++;
-  dsu uf(n);
-  ll ans = 0;
-  for(int i=0;i<n;++i){
-    if(seen[i]) continue;
-    if(dim[i] < 2) continue;
-    ll now = 1e18;
-    int v = i;
-    do{
-      seen[v] = true;
-      now = min(c[v],now);
-      v = x[v];
-    }while(i != v);
-    ans += now;
+  cin >>n ;
+  for(int i=0;i<n;i++) cin >> x[i],x[i]--;
+  for(int i=0;i<n;i++) cin >> c[i];
+  for(int i=0;i<n;i++) dim[x[i]]++;
+  long long ans = 0;
+  queue<int> q;
+  for(int i=0;i<n;i++) if(dim[i]==0) q.push(i);
+  while(!q.empty()){
+    int v = q.front(); q.pop();
+    int u = x[v];
+    dim[u]--;
+    if(dim[u]==0) q.push(u);
+  }
+  for(int i=0;i<n;i++){
+    if(dim[i] != 0 && !finished[i]){
+      long long now = 1e18;
+      int v = i;
+      do{
+        finished[v] = true;
+        now = min(now,c[v]);
+        v = x[v];
+      }while(v != i);
+      ans += now;    
+     }
   }
   cout << ans << endl;
   return 0;
 }
-
+  
