@@ -1,30 +1,31 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <vector>
 using namespace std;
-#define rep(i,n) for(int i=0;i<n;i++)
 using ll = long long;
-
 int main(){
-    int n;
-    cin >> n;
-    vector<int> a(n);
-    rep(i,n) cin >> a[i];
-    vector<int> s(n+1);
-    rep(i,n) s[i+1] = s[i]^a[i];
-    rep(i,n+1) cout << s[i] << " "; cout << endl;
-    ll ans = 0;
-
-    rep(k,30){
-        int zero = 1;
-        rep(i,n){
-            if((s[i+1]>>k)&1){
-                if((s[i] >> k) & 1) ans += zero;
-                else ans += zero-1;
-            }else{
-                zero++;
-                if((s[i]>>k) & 1) ans += i-zero;
-                else ans += (i+1) - zero;
-            }
-        }
+  int n;
+  cin >> n;
+  vector<ll> a(n),s(n+1);
+  for(int i=0;i<n;i++)cin >> a[i];
+  for(int i=0;i<n;i++) s[i+1] = s[i]^a[i];
+  ll ans = 0;
+  for(int k=0;k<32;k++){
+    int ok = 0;
+    int ng = 0;
+    vector<ll> dp(n+1);
+    dp[0] = 0;
+    for(int i=0;i<n;i++){
+      if(s[i]>>k&1){
+         swap(ok,ng);
+         dp[i+1] = dp[i]+ok;
+      }else{
+        dp[i+1] = dp[i]+ok;
+      }
     }
-    cout << ans << endl;
+    ans += (1LL<<k)*dp[n];
+  }
+  cout << ans << endl;
 }
+
+
+
