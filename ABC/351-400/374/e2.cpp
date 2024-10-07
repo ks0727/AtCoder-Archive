@@ -11,20 +11,18 @@ int main(){
     while(r-l>1){
         ll mid = (r+l)/2;
         ll now = 0;
+        ll nowa = 0;
+        ll nowb = 0;
+        ll need = mid;
         rep(i,n){
-            ll need = mid;
-            ll lc = lcm(a[i],b[i]);
-            if(a[i]*q[i] > b[i]*p[i]){
-                now += need/lc*(lc/a[i])*p[i];
-                need %= lc;
-                if(need == 0) continue;
-                now += min((need+a[i]-1)/a[i]*p[i],(need+b[i]-1)/b[i]*q[i]);
-            }else{
-                now += need/lc*(lc/b[i])*q[i];
-                need %= lc;
-                if(need == 0) continue;
-                now += min((need+a[i]-1)/a[i]*p[i],(need+b[i]-1)/b[i]*q[i]);
-            }
+            nowa += (need/a[i])*p[i];
+            need%=a[i];
+            nowa += (need+b[i]-1)/b[i]*q[i];
+            need = mid;
+            nowb += (need/b[i])*q[i];
+            need%=b[i];
+            nowb += (need+a[i]-1)/a[i]*p[i];
+            now += min(nowa,nowb);
         }
         if(now < 0){
             cout << 0 << endl;
