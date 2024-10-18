@@ -1,36 +1,51 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include <cassert>
 using namespace std;
-#define rep(i,n) for(int i=0;i<n;++i)
-using ll = long long;
+long long a[16][16];
 int main(){
-    ll n,x;
-    cin >> n >> x;
-    vector<ll> a(n),p(n),b(n),q(n);
-    rep(i,n) cin >> a[i] >> p[i] >> b[i] >> q[i];
-    ll r = 1e18,l=-1;
-    while(r-l>1){
-        ll mid = (r+l)/2;
-        ll now = 0;
-        ll nowa = 0;
-        ll nowb = 0;
-        ll need = mid;
-        rep(i,n){
-            nowa += (need/a[i])*p[i];
-            need%=a[i];
-            nowa += (need+b[i]-1)/b[i]*q[i];
-            need = mid;
-            nowb += (need/b[i])*q[i];
-            need%=b[i];
-            nowb += (need+a[i]-1)/a[i]*p[i];
-            now += min(nowa,nowb);
+    int n;
+    cin >> n;
+    for(int i=0;i<2*n-1;i++){
+        for(int j=0;j<2*n-i-1;j++){
+            cin >> a[i][j];
         }
-        if(now < 0){
-            cout << 0 << endl;
-            return 0;
-        }
-        if(now > x) r = mid;
-        else l = mid;
     }
-    cout << l << endl;
+    long long ans = 0;
+    auto dfs = [&](auto dfs, int v, auto arr)->void{
+        if(arr.size() > n) return;
+        if(v == n){
+            int nv = n;
+            long long cur = 0;
+            for(int i=0;i<n;i++){
+                if(arr[i].size() > 2) return;
+                if(arr[i].size() == 1){
+                    cur ^= a[arr[i][0]][nv-arr[i][0]-1];
+                    nv++;
+                }else if(arr[i].size() == 0){
+                    cur ^= a[nv][0];
+                    nv += 2;
+                }else{
+                    cur ^= a[arr[i][0]][arr[i][1]-arr[i][0]-1];
+                }
+            }
+            ans = max(ans,cur);
+            return;
+        }
+        for(int i=0;i<arr.size();i++){
+            if(arr[i].size() < 2) {
+                arr[i].push_back(v);
+                dfs(dfs,v+1,arr);
+                arr[i].pop_back();
+            }
+        }
+        arr.push_back({v});
+        dfs(dfs,v+1,arr);
+        arr.pop_back();
+    };
+    dfs(dfs,1,vector<vector<int> >({{0}}));
+    cout << ans << endl; 
     return 0;
 }
+
