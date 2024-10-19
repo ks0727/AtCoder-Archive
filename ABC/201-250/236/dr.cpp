@@ -1,42 +1,46 @@
 #include <iostream>
-#include <algorithm>
 #include <vector>
+#include <algorithm>
 using namespace std;
-int a[16][16];
+int x[16][16];
 int main(){
   int n;
   cin >> n;
   for(int i=0;i<2*n-1;i++){
-    for(int j=0;j<2*n-i-1;j++){
-      cin >> a[i][j];
-    }
+    for(int j=0;j<2*n-i-1;j++) cin >> x[i][j];
   }
   int ans = 0;
-  auto dfs = [&](auto dfs, int v, auto arr)->void{
-    if(v == n){
-      int nv = n;
-      int cur = 0;
-      for(int i=0;i<n;i++){
-        if(arr[i].size() == 1){
-          cur ^= a[arr[i][0]][nv];
-          nv++;
-        }else if(arr[i].size() == 0){
-          cur ^= a[nv][nv+1];
-          nv += 2;
-        }else{
-          cur ^= a[arr[i][0]][arr[i][1]];
-        }
+  auto f = [&](auto f,vector<pair<int,int> > ps)->void{
+    if(ps.size() == n){
+      int now = 0;
+      for(auto [a,b] : ps){
+        now ^= x[a][b-a-1];
       }
-       ans = max(ans,cur);
-       return;
+      ans = max(ans,now);
+      return;
     }
-    for(int i=0;i<arr.size();i++){
-      if(arr[i].size() < 2) dfs(dfs,v+1,arr[i].push_back(v));
+    vector<bool> chosen(2*n);
+    for(auto [a,b] : ps){
+        chosen[a] = true;
+        chosen[b] = true;
     }
-    dfs(dfs,v+1,arr.push_back({v}));
+    int nx = -1;
+    for(int i=0;i<n*2;i++){
+      if(!chosen[i]){
+        nx = i;
+        break;
+      }
+    }
+    for(int i=nx+1;i<2*n;i++){
+      if(!chosen[i]) {
+        vector<pair<int,int> > nps = ps;
+        nps.emplace_back(nx,i);
+        f(f,nps);
+      }
+    }
   };
-  dfs(dfs,1,vector<vector<int> >({{0}}));
-  cout << ans << endl; 
-  return 0;
+  f(f,vector<pair<int,int> >{});
+  cout << ans << endl;
 }
+
 

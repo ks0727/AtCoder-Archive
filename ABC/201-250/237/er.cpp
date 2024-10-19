@@ -1,43 +1,43 @@
 #include <iostream>
 #include <queue>
 #include <vector>
+#include <algorithm>
 using namespace std;
-using ll = long long;
-using P = pair<ll,int>;
+using P = pair<int,int>;
 int main(){
   int n,m;
   cin >> n >> m;
-  vector<ll> h(n);
+  vector<int> h(n);
   for(int i=0;i<n;i++) cin >> h[i];
-  vector<vector<P> > g(n);
+  vector<vector<int> > g(n);
   for(int i=0;i<m;i++){
     int a,b;
     cin >> a >> b;
     a--; b--;
-    if(h[a] > h[b]) swap(a,b);
-    g[a].emplace_back(2*(h[b]-h[a]),b);
-    g[b].emplace_back(h[a]-h[b],a);
+    g[a].push_back(b);
+    g[b].push_back(a);
   }
-  const ll INF = 1e18;
-  vector<ll> dist(n,INF);
-  dist[0] = 0;
-  priority_queue<P,vector<P>,greater<P> > q;
-  q.emplace(0,0);
-  while(!q.empty())
-  {
-    auto[c,v] = q.top(); q.pop();
+  priority_queue<P,vector<P>,greater<P> > pq;
+  pq.emplace(0,0);
+  const int INF = 1001001001;
+  vector<int> dist(n,INF);
+  while(!pq.empty()){
+    auto [c,v] = pq.top(); pq.pop();
     if(c > dist[v]) continue;
-    for(auto [cc,u] : g[v])
-    {
-      if(dist[u] > c+cc){
-        dist[u] = c+cc;
-        q.emplace(c+cc,u);
+    for(int u : g[v]){
+      int nc = max(h[u]-h[v],0);
+      if(c + nc < dist[u]){
+        dist[u] = c+nc;
+        pq.emplace(dist[u],u);
       }
     }
   }
-  ll ans = INF;
-  for(int i=0;i<n;i++) ans = min(ans,dist[i]);
-  cout << -ans << endl;
-  return 0;
+  vector<int> ans(n);
+  ans[0] = 0;
+  for(int i=0;i<n;i++){
+    ans[i] = h[0]-h[i]-dist[i];
+  }
+  int fans = 0;
+  for(int i=0;i<n;i++) fans = max(fans,ans[i]);
+  cout << fans << endl;
 }
-
