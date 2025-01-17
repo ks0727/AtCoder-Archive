@@ -5,12 +5,16 @@ using namespace std;
 int main(){
     int n;
     cin >> n;
-    vector<long long> a(n);
+    vector<int> a(n);
     rep(i,n) cin >> a[i];
+    int r = 0;
     long long ans = 0;
-    rep(i,n){
-        long long now = a.end()-lower_bound(a.begin(),a.end(),a[i]*2);
-        ans += now;
+    rep(l,n){
+        while(r<n && a[l]*2 > a[r]){
+            r++;
+        }
+        if(r == l) l++;
+        else ans += (n-r);
     }
     cout << ans << endl;
     return 0;
