@@ -5,8 +5,8 @@ using namespace std;
 int main(){
     string s;
     cin >> s;
-    string ans = "";
-    rep(i,s.size()) if(s[i] == '2') ans += s[i];
-    cout << ans << endl;
+    int cnt = 0;
+    rep(i,s.size()) if(s[i] == '2') cnt++;
+    cout << string(cnt,'2') << endl;
     return 0;
 }
