@@ -5,13 +5,15 @@ using namespace std;
 int main(){
     int n;
     cin >> n;
-    vector<int> a(n);
-    rep(i,n) cin >> a[i];
-    rep(i,n-1){
-        if(a[i] >= a[i+1]){
+    int prev = -1;
+    rep(i,n){
+        int a;
+        cin >> a;
+        if(a <= prev){
             cout << "No" << endl;
             return 0;
         }
+        prev = a;
     }
     cout << "Yes" << endl;
     return 0;
